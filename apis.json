@@ -1,0 +1,48 @@
+{
+    "name": "News API",
+    "description": "Get live article metadata from a range of sources including BBC News, TechCrunch, Huffington Post and more with our free News API.",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/26590-news-api.jpg",
+    "tags": [
+        "api provider",
+        "general data",
+        "have api",
+        "news",
+        "service api",
+        "streams"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/news-api\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "News API",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/26590-news-api.jpg",
+            "humanURL": "https:\/\/newsapi.org",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/news-api-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Email",
+            "url": "support@newsapi.org"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/NewsAPIorg"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/newsapi.org"
+        }
+    ]
+}
