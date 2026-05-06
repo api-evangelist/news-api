@@ -1,0 +1,300 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: News API
+  description: Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.
+  tags:
+  - News
+  - Api
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: news-api
+    baseUri: https://newsapi.org/v2
+    description: News API HTTP API.
+    authentication:
+      type: apikey
+      in: query
+      name: apiKey
+      value: '{{NEWS_API_TOKEN}}'
+    resources:
+    - name: everything
+      path: /everything
+      operations:
+      - name: geteverything
+        method: GET
+        description: Search all articles
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: Keywords or phrases to search for in article title and body.
+        - name: searchIn
+          in: query
+          type: string
+          description: Fields to restrict the q search to. Comma-separated list of title, description, content.
+        - name: sources
+          in: query
+          type: string
+          description: Comma-separated string of identifiers for the news sources or blogs (max 20).
+        - name: domains
+          in: query
+          type: string
+          description: Comma-separated string of domains to restrict the search to.
+        - name: excludeDomains
+          in: query
+          type: string
+          description: Comma-separated string of domains to remove from results.
+        - name: from
+          in: query
+          type: string
+          description: A date and optional time for the oldest article allowed (ISO 8601).
+        - name: to
+          in: query
+          type: string
+          description: A date and optional time for the newest article allowed (ISO 8601).
+        - name: language
+          in: query
+          type: string
+          description: The 2-letter ISO-639-1 code of the language.
+        - name: sortBy
+          in: query
+          type: string
+          description: The order to sort articles in.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of results to return per page.
+        - name: page
+          in: query
+          type: integer
+          description: Use this to page through the results.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: top-headlines
+      path: /top-headlines
+      operations:
+      - name: gettopheadlines
+        method: GET
+        description: Get top breaking news headlines
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+          description: The 2-letter ISO 3166-1 code of the country to get headlines for.
+        - name: category
+          in: query
+          type: string
+          description: The category to get headlines for.
+        - name: sources
+          in: query
+          type: string
+          description: Comma-separated string of identifiers for news sources or blogs.
+        - name: q
+          in: query
+          type: string
+          description: Keywords or phrases to search for in article title and body.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of results to return per page (max 100).
+        - name: page
+          in: query
+          type: integer
+          description: Use this to page through the results.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: top-headlines-sources
+      path: /top-headlines/sources
+      operations:
+      - name: getsources
+        method: GET
+        description: Get available news sources
+        inputParameters:
+        - name: category
+          in: query
+          type: string
+          description: Filter sources by category.
+        - name: language
+          in: query
+          type: string
+          description: Filter sources by language (2-letter ISO-639-1 code).
+        - name: country
+          in: query
+          type: string
+          description: Filter sources by country (2-letter ISO 3166-1 code).
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: news-api-rest
+    description: REST adapter for News API.
+    resources:
+    - path: /everything
+      name: geteverything
+      operations:
+      - method: GET
+        name: geteverything
+        description: Search all articles
+        call: news-api.geteverything
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /top-headlines
+      name: gettopheadlines
+      operations:
+      - method: GET
+        name: gettopheadlines
+        description: Get top breaking news headlines
+        call: news-api.gettopheadlines
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /top-headlines/sources
+      name: getsources
+      operations:
+      - method: GET
+        name: getsources
+        description: Get available news sources
+        call: news-api.getsources
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: news-api-mcp
+    transport: http
+    description: MCP adapter for News API for AI agent use.
+    tools:
+    - name: geteverything
+      description: Search all articles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: news-api.geteverything
+      with:
+        q: tools.q
+        searchIn: tools.searchIn
+        sources: tools.sources
+        domains: tools.domains
+        excludeDomains: tools.excludeDomains
+        from: tools.from
+        to: tools.to
+        language: tools.language
+        sortBy: tools.sortBy
+        pageSize: tools.pageSize
+        page: tools.page
+      inputParameters:
+      - name: q
+        type: string
+        description: Keywords or phrases to search for in article title and body.
+      - name: searchIn
+        type: string
+        description: Fields to restrict the q search to. Comma-separated list of title, description, content.
+      - name: sources
+        type: string
+        description: Comma-separated string of identifiers for the news sources or blogs (max 20).
+      - name: domains
+        type: string
+        description: Comma-separated string of domains to restrict the search to.
+      - name: excludeDomains
+        type: string
+        description: Comma-separated string of domains to remove from results.
+      - name: from
+        type: string
+        description: A date and optional time for the oldest article allowed (ISO 8601).
+      - name: to
+        type: string
+        description: A date and optional time for the newest article allowed (ISO 8601).
+      - name: language
+        type: string
+        description: The 2-letter ISO-639-1 code of the language.
+      - name: sortBy
+        type: string
+        description: The order to sort articles in.
+      - name: pageSize
+        type: integer
+        description: The number of results to return per page.
+      - name: page
+        type: integer
+        description: Use this to page through the results.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gettopheadlines
+      description: Get top breaking news headlines
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: news-api.gettopheadlines
+      with:
+        country: tools.country
+        category: tools.category
+        sources: tools.sources
+        q: tools.q
+        pageSize: tools.pageSize
+        page: tools.page
+      inputParameters:
+      - name: country
+        type: string
+        description: The 2-letter ISO 3166-1 code of the country to get headlines for.
+      - name: category
+        type: string
+        description: The category to get headlines for.
+      - name: sources
+        type: string
+        description: Comma-separated string of identifiers for news sources or blogs.
+      - name: q
+        type: string
+        description: Keywords or phrases to search for in article title and body.
+      - name: pageSize
+        type: integer
+        description: The number of results to return per page (max 100).
+      - name: page
+        type: integer
+        description: Use this to page through the results.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getsources
+      description: Get available news sources
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: news-api.getsources
+      with:
+        category: tools.category
+        language: tools.language
+        country: tools.country
+      inputParameters:
+      - name: category
+        type: string
+        description: Filter sources by category.
+      - name: language
+        type: string
+        description: Filter sources by language (2-letter ISO-639-1 code).
+      - name: country
+        type: string
+        description: Filter sources by country (2-letter ISO 3166-1 code).
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    NEWS_API_TOKEN: NEWS_API_TOKEN
