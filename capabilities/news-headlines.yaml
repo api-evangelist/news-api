@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: News API — Headlines
+  description: 'News API — Headlines. 1 operations. Lead operation: Get top breaking news headlines. Self-contained Naftiko
+    capability covering one News Api business surface.'
+  tags:
+  - News Api
+  - Headlines
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    NEWS_API_API_KEY: NEWS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: news-headlines
+    baseUri: https://newsapi.org/v2
+    description: News API — Headlines business capability. Self-contained, no shared references.
+    resources:
+    - name: top-headlines
+      path: /top-headlines
+      operations:
+      - name: gettopheadlines
+        method: GET
+        description: Get top breaking news headlines
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+          description: The 2-letter ISO 3166-1 code of the country to get headlines for.
+        - name: category
+          in: query
+          type: string
+          description: The category to get headlines for.
+        - name: sources
+          in: query
+          type: string
+          description: Comma-separated string of identifiers for news sources or blogs.
+        - name: q
+          in: query
+          type: string
+          description: Keywords or phrases to search for in article title and body.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of results to return per page (max 100).
+        - name: page
+          in: query
+          type: integer
+          description: Use this to page through the results.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.NEWS_API_API_KEY}}'
+      placement: query
+  exposes:
+  - type: rest
+    namespace: news-headlines-rest
+    port: 8080
+    description: REST adapter for News API — Headlines. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/top-headlines
+      name: top-headlines
+      description: REST surface for top-headlines.
+      operations:
+      - method: GET
+        name: gettopheadlines
+        description: Get top breaking news headlines
+        call: news-headlines.gettopheadlines
+        with:
+          country: rest.country
+          category: rest.category
+          sources: rest.sources
+          q: rest.q
+          pageSize: rest.pageSize
+          page: rest.page
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: news-headlines-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for News API — Headlines. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-top-breaking-news-headlines
+      description: Get top breaking news headlines
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: news-headlines.gettopheadlines
+      with:
+        country: tools.country
+        category: tools.category
+        sources: tools.sources
+        q: tools.q
+        pageSize: tools.pageSize
+        page: tools.page
+      outputParameters:
+      - type: object
+        mapping: $.
