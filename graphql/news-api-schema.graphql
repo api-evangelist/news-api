@@ -1,0 +1,511 @@
+"""
+NewsAPI GraphQL Schema
+Conceptual GraphQL representation of the NewsAPI REST API (https://newsapi.org/docs/)
+Covers article search, top headlines, and source discovery.
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+"""ISO 639-1 language codes supported by NewsAPI."""
+enum LanguageCode {
+  AR
+  DE
+  EN
+  ES
+  FR
+  HE
+  IT
+  NL
+  NO
+  PT
+  RU
+  SV
+  UD
+  ZH
+}
+
+"""ISO 3166-1 alpha-2 country codes supported by NewsAPI."""
+enum CountryCode {
+  AE
+  AR
+  AT
+  AU
+  BE
+  BG
+  BR
+  CA
+  CH
+  CN
+  CO
+  CU
+  CZ
+  DE
+  EG
+  FR
+  GB
+  GR
+  HK
+  HU
+  ID
+  IE
+  IL
+  IN
+  IT
+  JP
+  KR
+  LT
+  LV
+  MA
+  MX
+  MY
+  NG
+  NL
+  NO
+  NZ
+  PH
+  PL
+  PT
+  RO
+  RS
+  RU
+  SA
+  SE
+  SG
+  SI
+  SK
+  TH
+  TR
+  TW
+  UA
+  US
+  VE
+  ZA
+}
+
+"""Topic categories for news sources."""
+enum CategoryType {
+  BUSINESS
+  ENTERTAINMENT
+  GENERAL
+  HEALTH
+  SCIENCE
+  SPORTS
+  TECHNOLOGY
+}
+
+"""Sort order for article results."""
+enum SortBy {
+  RELEVANCY
+  POPULARITY
+  PUBLISHED_AT
+}
+
+"""HTTP-level response status returned by the NewsAPI."""
+enum ResponseStatus {
+  OK
+  ERROR
+}
+
+# ─── Core Article Types ──────────────────────────────────────────────────────
+
+"""The publication source embedded in an article object."""
+type ArticleSource {
+  id: String
+  name: String!
+}
+
+"""Author attribution for a news article."""
+type ArticleAuthor {
+  name: String
+  email: String
+}
+
+"""The full content block of a news article (may be truncated by NewsAPI)."""
+type ArticleContent {
+  raw: String
+  truncated: Boolean
+  characterCount: Int
+}
+
+"""A canonical or alternate URL associated with an article."""
+type ArticleUrl {
+  href: URL!
+  rel: String
+}
+
+"""Image metadata associated with an article."""
+type ArticleImage {
+  url: URL
+  width: Int
+  height: Int
+  alt: String
+}
+
+"""Publication timestamp information for an article."""
+type ArticlePublishedAt {
+  iso8601: DateTime!
+  unix: Int
+  formatted: String
+}
+
+"""A short highlighted excerpt matching a search query."""
+type ArticleHighlight {
+  field: String!
+  snippet: String!
+}
+
+"""A brief textual snippet/preview of an article."""
+type ArticleSnippet {
+  text: String!
+  maxLength: Int
+}
+
+"""A fully detailed news article as returned by the /everything or /top-headlines endpoints."""
+type ArticleDetails {
+  source: ArticleSource!
+  author: String
+  authorDetails: ArticleAuthor
+  title: String!
+  description: String
+  url: URL!
+  urlToImage: URL
+  publishedAt: DateTime!
+  publishedAtDetails: ArticlePublishedAt
+  content: String
+  contentDetails: ArticleContent
+  imageDetails: ArticleImage
+  highlights: [ArticleHighlight!]
+  snippet: ArticleSnippet
+  relatedArticles: [Article!]
+}
+
+"""Top-level article node (thin wrapper around ArticleDetails for list use)."""
+type Article {
+  source: ArticleSource!
+  author: String
+  title: String!
+  description: String
+  url: URL!
+  urlToImage: URL
+  publishedAt: DateTime!
+  content: String
+  details: ArticleDetails
+}
+
+# ─── Source Types ────────────────────────────────────────────────────────────
+
+"""A news source registered in the NewsAPI sources index."""
+type SourceDetails {
+  id: String!
+  name: String!
+  description: String
+  url: URL!
+  category: CategoryType!
+  language: LanguageCode!
+  country: CountryCode!
+}
+
+"""A news source category label."""
+type SourceCategory {
+  value: CategoryType!
+  label: String!
+}
+
+"""Language designation for a news source."""
+type SourceLanguage {
+  code: LanguageCode!
+  name: String!
+}
+
+"""Country designation for a news source."""
+type SourceCountry {
+  code: CountryCode!
+  name: String!
+}
+
+"""URL info block for a news source's homepage."""
+type SourceUrl {
+  href: URL!
+  verified: Boolean
+}
+
+"""Top-level source node."""
+type Source {
+  id: String!
+  name: String!
+  description: String
+  url: URL!
+  category: CategoryType!
+  language: LanguageCode!
+  country: CountryCode!
+  details: SourceDetails
+  categoryDetails: SourceCategory
+  languageDetails: SourceLanguage
+  countryDetails: SourceCountry
+  urlDetails: SourceUrl
+}
+
+# ─── Headline Types ──────────────────────────────────────────────────────────
+
+"""A single top-headline article entry."""
+type HeadlineDetails {
+  article: Article!
+  rank: Int
+  trending: Boolean
+}
+
+"""A single headline (thin wrapper)."""
+type Headline {
+  article: Article!
+  details: HeadlineDetails
+}
+
+"""Collection of top headlines for a query."""
+type TopHeadlines {
+  status: ResponseStatus!
+  totalResults: Int!
+  articles: [Article!]!
+  meta: ResultsMeta
+}
+
+# ─── Search / Everything Types ───────────────────────────────────────────────
+
+"""Structured representation of the search query submitted to /everything."""
+type SearchQuery {
+  q: String
+  searchIn: [String!]
+  from: DateTime
+  to: DateTime
+  language: LanguageCode
+  sortBy: SortBy
+  domains: [String!]
+  excludeDomains: [String!]
+  sources: [String!]
+  page: Int
+  pageSize: Int
+}
+
+"""Filter criteria applied to a search (mirrors SearchQuery for schema clarity)."""
+type SearchFilter {
+  keywords: [Keyword!]
+  dateRange: DateRange
+  language: Language
+  domains: DomainFilter
+  excludedDomains: ExcludeDomains
+  sources: SourceFilter
+}
+
+"""Filter on specific sources."""
+type SourceFilter {
+  ids: [String!]
+  names: [String!]
+}
+
+"""Collection of everything-search results."""
+type Everything {
+  status: ResponseStatus!
+  totalResults: Int!
+  articles: [Article!]!
+  query: SearchQuery
+  filter: SearchFilter
+  meta: ResultsMeta
+}
+
+# ─── Pagination & Meta ───────────────────────────────────────────────────────
+
+"""Cursor-style page info."""
+type PageInfo {
+  page: Int!
+  pageSize: Int!
+  totalPages: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Metadata about a results set."""
+type ResultsMeta {
+  totalResults: Int!
+  pageInfo: PageInfo!
+  requestedAt: DateTime
+  responseTimeMs: Int
+}
+
+"""Wrapper around a news article result set."""
+type NewsResults {
+  status: ResponseStatus!
+  totalResults: Int!
+  articles: [Article!]!
+  meta: ResultsMeta
+}
+
+"""Wrapper around a source result set."""
+type SourceResults {
+  status: ResponseStatus!
+  sources: [Source!]!
+}
+
+# ─── Trending / Topic Types ──────────────────────────────────────────────────
+
+"""A currently trending news topic."""
+type TrendingTopic {
+  keyword: String!
+  articleCount: Int
+  details: TopicDetails
+}
+
+"""Detailed information about a trending topic."""
+type TopicDetails {
+  keyword: String!
+  category: TopicCategory
+  relatedKeywords: [Keyword!]
+  articles: [Article!]
+}
+
+"""Category grouping for a topic."""
+type TopicCategory {
+  name: String!
+  type: CategoryType
+}
+
+"""A keyword used in search or topic analysis."""
+type Keyword {
+  term: String!
+  weight: Float
+}
+
+# ─── Filter Helper Types ─────────────────────────────────────────────────────
+
+"""Domain inclusion filter."""
+type DomainFilter {
+  domains: [String!]!
+}
+
+"""Domains to exclude from results."""
+type ExcludeDomains {
+  domains: [String!]!
+}
+
+"""Date range for filtering articles."""
+type DateRange {
+  from: DateStart
+  to: DateEnd
+}
+
+"""Start of a date range."""
+type DateStart {
+  iso8601: DateTime!
+  inclusive: Boolean
+}
+
+"""End of a date range."""
+type DateEnd {
+  iso8601: DateTime!
+  inclusive: Boolean
+}
+
+"""Language filter wrapper."""
+type Language {
+  code: LanguageCode!
+  name: String
+}
+
+# ─── API / Auth Types ────────────────────────────────────────────────────────
+
+"""An API key credential for authenticating with NewsAPI."""
+type APIKey {
+  key: String!
+  plan: String
+  rateLimit: Int
+  rateLimitRemaining: Int
+}
+
+"""A bearer token (alias concept for API key header usage)."""
+type Token {
+  value: String!
+  scheme: String
+}
+
+"""Metadata about a request sent to the NewsAPI."""
+type APIRequest {
+  endpoint: String!
+  parameters: JSON
+  apiKey: String
+  timestamp: DateTime
+}
+
+# ─── Response / Error Types ──────────────────────────────────────────────────
+
+"""HTTP-level response code."""
+type ResponseCode {
+  httpStatus: Int!
+  code: String
+  message: String
+}
+
+"""Structured error response from the NewsAPI."""
+type ErrorResponse {
+  status: ResponseStatus!
+  code: String!
+  message: String!
+}
+
+# ─── Related Articles ────────────────────────────────────────────────────────
+
+"""A list of articles related to a given article."""
+type RelatedArticles {
+  sourceArticle: Article!
+  related: [Article!]!
+  algorithm: String
+}
+
+# ─── Root Query ──────────────────────────────────────────────────────────────
+
+type Query {
+  """Search every article indexed by NewsAPI."""
+  everything(
+    q: String
+    searchIn: [String!]
+    sources: [String!]
+    domains: [String!]
+    excludeDomains: [String!]
+    from: DateTime
+    to: DateTime
+    language: LanguageCode
+    sortBy: SortBy
+    pageSize: Int
+    page: Int
+  ): Everything
+
+  """Fetch top headlines, optionally filtered by country, category, or source."""
+  topHeadlines(
+    country: CountryCode
+    category: CategoryType
+    sources: [String!]
+    q: String
+    pageSize: Int
+    page: Int
+  ): TopHeadlines
+
+  """List all news sources available in NewsAPI."""
+  sources(
+    category: CategoryType
+    language: LanguageCode
+    country: CountryCode
+  ): SourceResults
+
+  """Retrieve a single source by ID."""
+  source(id: String!): Source
+
+  """Get trending topics (conceptual — derived from top headline clustering)."""
+  trendingTopics(
+    country: CountryCode
+    category: CategoryType
+    limit: Int
+  ): [TrendingTopic!]
+}
