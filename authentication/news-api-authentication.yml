@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/news-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: query
+  parameter: apiKey
+  sources:
+  - openapi/news-api-openapi.yml
+- name: ApiKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  sources:
+  - openapi/news-api-openapi.yml

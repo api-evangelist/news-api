@@ -37,3 +37,8 @@ maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 common: []
+common:
+- type: DomainSecurity
+  url: security/news-api-domain-security.yml
+- type: Authentication
+  url: authentication/news-api-authentication.yml
