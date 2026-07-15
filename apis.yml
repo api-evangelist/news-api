@@ -38,6 +38,8 @@ maintainers:
   email: kin@apievangelist.com
 common: []
 common:
+- type: AgenticAccess
+  url: agentic-access/news-api-agentic-access.yml
 - type: DomainSecurity
   url: security/news-api-domain-security.yml
 - type: Authentication
