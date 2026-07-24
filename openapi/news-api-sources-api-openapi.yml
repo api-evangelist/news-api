@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: News Articles Sources API
+  description: Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.
+  version: 2.0.0
+  contact:
+    name: News API
+    url: https://newsapi.org/
+servers:
+- url: https://newsapi.org/v2
+  description: News API production server
+security:
+- ApiKeyAuth: []
+- ApiKeyHeader: []
+tags:
+- name: Sources
+paths:
+  /top-headlines/sources:
+    get:
+      summary: Get available news sources
+      description: Returns the subset of news publishers that top headlines are available from.
+      operationId: getSources
+      tags:
+      - Sources
+      parameters:
+      - name: category
+        in: query
+        description: Filter sources by category.
+        schema:
+          type: string
+          enum:
+          - business
+          - entertainment
+          - general
+          - health
+          - science
+          - sports
+          - technology
+      - name: language
+        in: query
+        description: Filter sources by language (2-letter ISO-639-1 code).
+        schema:
+          type: string
+      - name: country
+        in: query
+        description: Filter sources by country (2-letter ISO 3166-1 code).
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Sources list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcesResponse'
+components:
+  schemas:
+    Source:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        category:
+          type: string
+        language:
+          type: string
+        country:
+          type: string
+    SourcesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: query
+      name: apiKey
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

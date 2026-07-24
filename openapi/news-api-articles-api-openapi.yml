@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: News Articles API
+  description: Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.
+  version: 2.0.0
+  contact:
+    name: News API
+    url: https://newsapi.org/
+servers:
+- url: https://newsapi.org/v2
+  description: News API production server
+security:
+- ApiKeyAuth: []
+- ApiKeyHeader: []
+tags:
+- name: Articles
+paths:
+  /everything:
+    get:
+      summary: Search all articles
+      description: Search through millions of articles from over 150,000 large and small news sources and blogs.
+      operationId: getEverything
+      tags:
+      - Articles
+      parameters:
+      - name: q
+        in: query
+        description: Keywords or phrases to search for in article title and body.
+        schema:
+          type: string
+      - name: searchIn
+        in: query
+        description: Fields to restrict the q search to. Comma-separated list of title, description, content.
+        schema:
+          type: string
+      - name: sources
+        in: query
+        description: Comma-separated string of identifiers for the news sources or blogs (max 20).
+        schema:
+          type: string
+      - name: domains
+        in: query
+        description: Comma-separated string of domains to restrict the search to.
+        schema:
+          type: string
+      - name: excludeDomains
+        in: query
+        description: Comma-separated string of domains to remove from results.
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: A date and optional time for the oldest article allowed (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: A date and optional time for the newest article allowed (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      - name: language
+        in: query
+        description: The 2-letter ISO-639-1 code of the language.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: The order to sort articles in.
+        schema:
+          type: string
+          enum:
+          - relevancy
+          - popularity
+          - publishedAt
+      - name: pageSize
+        in: query
+        description: The number of results to return per page.
+        schema:
+          type: integer
+          default: 100
+          maximum: 100
+      - name: page
+        in: query
+        description: Use this to page through the results.
+        schema:
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: Articles search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticlesResponse'
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        source:
+          type: object
+          properties:
+            id:
+              type: string
+              nullable: true
+            name:
+              type: string
+        author:
+          type: string
+          nullable: true
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        url:
+          type: string
+        urlToImage:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+        content:
+          type: string
+          nullable: true
+    ArticlesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        totalResults:
+          type: integer
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: query
+      name: apiKey
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
