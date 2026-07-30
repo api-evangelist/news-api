@@ -3,9 +3,22 @@ name: News API
 description: Locate articles and breaking news headlines from news sources and blogs
   across the web with our JSON API.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/news-api.png
 tags:
 - News
 - Articles
@@ -16,23 +29,48 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/news-api/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-- aid: news-api:news-api
-  name: News API
-  description: Locate articles and breaking news headlines from news sources and blogs
-    across the web with our JSON API.
+- aid: news-api:news-api-articles-api
+  name: News API Articles API
+  description: The Articles API from News API — 1 operation(s) for articles.
   humanURL: https://newsapi.org/
   baseURL: https://newsapi.org/v2
   tags:
-  - News
   - Articles
-  - Headlines
   properties:
+  - type: OpenAPI
+    url: openapi/news-api-articles-api-openapi.yml
   - type: Documentation
     url: https://newsapi.org/docs
+  - type: GraphQL
+    url: graphql/news-api-graphql.md
+- aid: news-api:news-api-headlines-api
+  name: News API Headlines API
+  description: The Headlines API from News API — 1 operation(s) for headlines.
+  humanURL: https://newsapi.org/
+  baseURL: https://newsapi.org/v2
+  tags:
+  - Headlines
+  properties:
   - type: OpenAPI
-    url: https://raw.githubusercontent.com/api-evangelist/news-api/refs/heads/main/openapi/news-api-openapi.yml
-  - url: graphql/news-api-graphql.md
-    type: GraphQL
+    url: openapi/news-api-headlines-api-openapi.yml
+  - type: Documentation
+    url: https://newsapi.org/docs
+  - type: GraphQL
+    url: graphql/news-api-graphql.md
+- aid: news-api:news-api-sources-api
+  name: News API Sources API
+  description: The Sources API from News API — 1 operation(s) for sources.
+  humanURL: https://newsapi.org/
+  baseURL: https://newsapi.org/v2
+  tags:
+  - Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/news-api-sources-api-openapi.yml
+  - type: Documentation
+    url: https://newsapi.org/docs
+  - type: GraphQL
+    url: graphql/news-api-graphql.md
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
