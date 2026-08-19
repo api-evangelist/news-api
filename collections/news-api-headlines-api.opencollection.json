@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "News Articles Headlines API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Headlines",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get top breaking news headlines",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://newsapi.org/v2/top-headlines",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "The 2-letter ISO 3166-1 code of the country to get headlines for."
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "The category to get headlines for."
+              },
+              {
+                "name": "sources",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated string of identifiers for news sources or blogs."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Keywords or phrases to search for in article title and body."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page (max 100)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Use this to page through the results."
+              }
+            ]
+          },
+          "docs": "Provides live top and breaking headlines for a country, specific category in a country, single source, or multiple sources."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

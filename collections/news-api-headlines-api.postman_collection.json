@@ -1,0 +1,185 @@
+{
+  "item": [
+    {
+      "id": "fa7bdac5-41de-4591-8928-4694457ba833",
+      "name": "Headlines",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1a32f1b8-8192-4990-82f4-eadacbc7eab9",
+          "name": "Get top breaking news headlines",
+          "request": {
+            "name": "Get top breaking news headlines",
+            "description": {
+              "content": "Provides live top and breaking headlines for a country, specific category in a country, single source, or multiple sources.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "top-headlines"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "The 2-letter ISO 3166-1 code of the country to get headlines for."
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "The category to get headlines for."
+                },
+                {
+                  "disabled": false,
+                  "key": "sources",
+                  "value": "<string>",
+                  "description": "Comma-separated string of identifiers for news sources or blogs."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Keywords or phrases to search for in article title and body."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "The number of results to return per page (max 100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Use this to page through the results."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da99054c-dcc0-4164-a15c-f12934c72187",
+              "name": "Top headlines results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "top-headlines"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"totalResults\": 2513,\n  \"articles\": [\n    {\n      \"source\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"author\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"string\",\n      \"urlToImage\": \"string\",\n      \"publishedAt\": \"2001-07-03T12:56:58.310Z\",\n      \"content\": \"string\"\n    },\n    {\n      \"source\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"author\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"string\",\n      \"urlToImage\": \"string\",\n      \"publishedAt\": \"1950-03-30T05:15:39.532Z\",\n      \"content\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://newsapi.org/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9b563e61-1cc8-40a8-ab54-c14097af09c0",
+    "name": "News Articles Headlines API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.\n\nContact Support:\n Name: News API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "item": [
+    {
+      "id": "af9ed05f-c5bb-4690-b42f-60e560367610",
+      "name": "Articles",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "76a50c67-ceae-4beb-af6f-501ed3f7fe15",
+          "name": "Search all articles",
+          "request": {
+            "name": "Search all articles",
+            "description": {
+              "content": "Search through millions of articles from over 150,000 large and small news sources and blogs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "everything"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Keywords or phrases to search for in article title and body."
+                },
+                {
+                  "disabled": false,
+                  "key": "searchIn",
+                  "value": "<string>",
+                  "description": "Fields to restrict the q search to. Comma-separated list of title, description, content."
+                },
+                {
+                  "disabled": false,
+                  "key": "sources",
+                  "value": "<string>",
+                  "description": "Comma-separated string of identifiers for the news sources or blogs (max 20)."
+                },
+                {
+                  "disabled": false,
+                  "key": "domains",
+                  "value": "<string>",
+                  "description": "Comma-separated string of domains to restrict the search to."
+                },
+                {
+                  "disabled": false,
+                  "key": "excludeDomains",
+                  "value": "<string>",
+                  "description": "Comma-separated string of domains to remove from results."
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "A date and optional time for the oldest article allowed (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "A date and optional time for the newest article allowed (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "<string>",
+                  "description": "The 2-letter ISO-639-1 code of the language."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "The order to sort articles in."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "100",
+                  "description": "The number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Use this to page through the results."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a3150cc-8b39-41da-8871-2eed4f89af0a",
+              "name": "Articles search results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "everything"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchIn",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "excludeDomains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"totalResults\": 774,\n  \"articles\": [\n    {\n      \"source\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"author\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"string\",\n      \"urlToImage\": \"string\",\n      \"publishedAt\": \"2000-01-31T09:23:05.534Z\",\n      \"content\": \"string\"\n    },\n    {\n      \"source\": {\n        \"id\": \"string\",\n        \"name\": \"string\"\n      },\n      \"author\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"string\",\n      \"urlToImage\": \"string\",\n      \"publishedAt\": \"1975-02-13T20:49:21.312Z\",\n      \"content\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://newsapi.org/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0f7499ed-cad7-44e8-8578-a4c0ec903549",
+    "name": "News Articles API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.\n\nContact Support:\n Name: News API",
+      "type": "text/plain"
+    }
+  }
+}

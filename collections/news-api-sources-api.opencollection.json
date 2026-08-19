@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "News Articles Sources API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get available news sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://newsapi.org/v2/top-headlines/sources",
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter sources by category."
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Filter sources by language (2-letter ISO-639-1 code)."
+              },
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "Filter sources by country (2-letter ISO 3166-1 code)."
+              }
+            ]
+          },
+          "docs": "Returns the subset of news publishers that top headlines are available from."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

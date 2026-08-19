@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "News Articles API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Articles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search all articles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://newsapi.org/v2/everything",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Keywords or phrases to search for in article title and body."
+              },
+              {
+                "name": "searchIn",
+                "value": "",
+                "type": "query",
+                "description": "Fields to restrict the q search to. Comma-separated list of title, description, content."
+              },
+              {
+                "name": "sources",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated string of identifiers for the news sources or blogs (max 20)."
+              },
+              {
+                "name": "domains",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated string of domains to restrict the search to."
+              },
+              {
+                "name": "excludeDomains",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated string of domains to remove from results."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "A date and optional time for the oldest article allowed (ISO 8601)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "A date and optional time for the newest article allowed (ISO 8601)."
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "The 2-letter ISO-639-1 code of the language."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "The order to sort articles in."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Use this to page through the results."
+              }
+            ]
+          },
+          "docs": "Search through millions of articles from over 150,000 large and small news sources and blogs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
