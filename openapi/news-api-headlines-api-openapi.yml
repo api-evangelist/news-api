@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: News Articles Headlines API
   description: Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.
@@ -73,36 +73,6 @@ paths:
                 $ref: '#/components/schemas/ArticlesResponse'
 components:
   schemas:
-    Article:
-      type: object
-      properties:
-        source:
-          type: object
-          properties:
-            id:
-              type: string
-              nullable: true
-            name:
-              type: string
-        author:
-          type: string
-          nullable: true
-        title:
-          type: string
-        description:
-          type: string
-          nullable: true
-        url:
-          type: string
-        urlToImage:
-          type: string
-          nullable: true
-        publishedAt:
-          type: string
-          format: date-time
-        content:
-          type: string
-          nullable: true
     ArticlesResponse:
       type: object
       properties:
@@ -114,6 +84,41 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Article'
+    Article:
+      type: object
+      properties:
+        source:
+          type: object
+          properties:
+            id:
+              type:
+              - string
+              - 'null'
+            name:
+              type: string
+        author:
+          type:
+          - string
+          - 'null'
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        url:
+          type: string
+        urlToImage:
+          type:
+          - string
+          - 'null'
+        publishedAt:
+          type: string
+          format: date-time
+        content:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

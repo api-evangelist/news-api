@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: News Articles Sources API
   description: Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API.
